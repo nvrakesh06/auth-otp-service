@@ -1,0 +1,44 @@
+# Temporary
+readme.md
+
+# 💾 Ignore Go build artifacts
+*.exe
+*.out
+*.o
+*.so
+*.a
+*.log
+
+# 🔧 Ignore compiled Go binaries
+otp-service
+
+# 🏗 Ignore Go Modules cache
+/bin/
+/pkg/
+/vendor/
+
+# 🚀 Ignore Docker-related files
+docker-compose.override.yml
+*.env  # Don't expose sensitive credentials
+.env
+.env.local
+.env.development
+.env.production
+
+# 🗄 Ignore IDE/editor-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 🔥 Ignore dependencies cache
+go.sum
+/go-build/
+/.coverage/
+/cache/
+/tmp/
+/dist/
+
+# 🔧 Ignore PostgreSQL & Redis Docker volumes
+postgres_otp_data/
