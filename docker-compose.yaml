@@ -45,7 +45,7 @@ services:
     volumes:
       - .:/app  # Mounts local project into the container
     working_dir: /app  # Sets working directory inside the container
-    command: go run main.go  # Runs Go application
+    command: go run ./cmd/main.go  # Runs Go application
 
 volumes:
   postgres_otp_data:

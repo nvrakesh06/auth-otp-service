@@ -1,21 +1,23 @@
-# Use the official Go image
+# Use Go base image
 FROM golang:1.23
 
-# Set the working directory inside the container
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy the Go module files and install dependencies
+# Copy go.mod and go.sum first (for dependency caching)
 COPY go.mod go.sum ./
+
+# Download dependencies
 RUN go mod tidy
 
-# Copy the rest of the application code
+# Copy the rest of the application source code
 COPY . .
 
-# Install Fiber & other dependencies
-RUN go build -o otp-service
+# Build the application
+RUN go build -o otp-service ./cmd/main.go
 
 # Expose the application port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["./otp-service"]
+# Run the application
+CMD [ "./otp-service" ]
