@@ -7,31 +7,25 @@ import (
 	"github.com/nvrakesh06/auth-otp-service/services"
 )
 
-// OTPRequest struct for API request payload
 type OTPRequest struct {
 	Phone string `json:"phone"`
 	Email string `json:"email"`
 }
 
-// VerifyOTPRequest struct for OTP verification
 type VerifyOTPRequest struct {
 	Phone string `json:"phone"`
 	OTP   string `json:"otp"`
 }
 
-// SendOTP generates and stores an OTP
 func SendOTP(c *fiber.Ctx) error {
 	var request OTPRequest
 
-	// Parse JSON request
 	if err := c.BodyParser(&request); err != nil {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid request format"})
 	}
 
-	// Generate OTP
 	otp := services.GenerateOTP()
 
-	// Save OTP in Redis
 	err := services.SaveOTP(request.Phone, otp)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": "Failed to store OTP"})
