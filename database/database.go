@@ -92,3 +92,16 @@ func GetOTP(phone string) (string, error) {
 	log.Println("OTP retrieved:", otp)
 	return otp, nil
 }
+
+func DeleteOTP(phone string) error {
+	ctx := context.Background()
+
+	err := RedisClient.Del(ctx, phone).Err()
+	if err != nil {
+		log.Println("Error deleting OTP for phone:", phone, err)
+		return fmt.Errorf("failed to delete OTP: %v", err)
+	}
+
+	log.Println("OTP deleted for phone:", phone)
+	return nil
+}
