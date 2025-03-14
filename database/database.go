@@ -57,3 +57,38 @@ func ConnectRedis() {
 
 	fmt.Println("✅ Connected to Redis successfully!")
 }
+
+func SaveOTP(phone string, otp string) error {
+	ctx := context.Background()
+	expiration := 5 * time.Minute
+
+	log.Println("Saving OTP for phone:", phone)
+
+	err := RedisClient.Set(ctx, phone, otp, expiration).Err()
+	if err != nil {
+		return fmt.Errorf("failed to store OTP: %v", err)
+	}
+
+	return nil
+}
+
+
+func GetOTP(phone string) (string, error) {
+	ctx := context.Background()
+
+	keys, err := RedisClient.Keys(ctx, "*").Result()
+	if err != nil {
+		log.Println("Error fetching keys:", err)
+	}
+
+	log.Println("Redis stored keys:", keys)
+
+	otp, err := RedisClient.Get(ctx, phone).Result()
+	if err != nil {
+		log.Println("Error retrieving OTP for", phone, ":", err)
+		return "", fmt.Errorf("OTP not found or expired")
+	}
+
+	log.Println("OTP retrieved:", otp)
+	return otp, nil
+}
