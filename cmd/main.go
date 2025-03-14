@@ -15,6 +15,7 @@ func main() {
 
 	database.ConnectPostgres()
 	database.ConnectRedis()
+	database.ExpireOldOTPs() // TODO: test this flow and check if there's better way to handle this
 
 	app := fiber.New()
 
